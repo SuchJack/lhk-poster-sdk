@@ -1,4 +1,4 @@
-package com.comwer.poster;
+package com.lhk.poster;
 
 import java.io.File;
 import java.io.FileOutputStream;

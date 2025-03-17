@@ -1,4 +1,4 @@
-package com.comwer.poster;
+package com.lhk.poster;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

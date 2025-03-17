@@ -1,6 +1,6 @@
 
 
-package com.comwer.QR;
+package com.lhk.QR;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;

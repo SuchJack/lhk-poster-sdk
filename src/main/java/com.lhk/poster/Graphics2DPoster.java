@@ -1,4 +1,4 @@
-package com.comwer.poster;
+package com.lhk.poster;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

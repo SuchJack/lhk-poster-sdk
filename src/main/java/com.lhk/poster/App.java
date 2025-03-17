@@ -1,4 +1,4 @@
-package com.comwer.poster;
+package com.lhk.poster;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;

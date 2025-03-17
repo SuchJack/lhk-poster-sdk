@@ -1,4 +1,4 @@
-package com.comwer.poster;
+package com.lhk.poster;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
