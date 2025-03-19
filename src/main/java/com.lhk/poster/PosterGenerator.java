@@ -42,9 +42,9 @@ public class PosterGenerator {
             String posterPath = PosterUtil.create(imageUrl, zhText, enText);
 
             System.out.println("posterPath = " + posterPath);
-            logger.info("海报已生成: " + posterPath);
+            logger.info("海报已生成: {}", posterPath);
         } catch (Exception e) {
-            logger.error("生成海报失败: " + e.getMessage(), e);
+            logger.error("生成海报失败: {}", e.getMessage(), e);
             e.printStackTrace(); // 添加这行以便在控制台看到完整错误信息
         }
     }
@@ -55,7 +55,7 @@ public class PosterGenerator {
     private static void generateFromLocalImage() {
         try {
             // 本地图片路径
-            String imagePath = "D:/images/sample.jpg";
+            String imagePath = "E:/posters/poster_5270156222652622379.jpg";
             
             // 中文内容
             String zhText = "技术成就梦想，代码书写人生。";
@@ -64,14 +64,14 @@ public class PosterGenerator {
             String enText = "Technology achieves dreams, code writes life.";
             
             // 输出目录
-            Path outputDir = Paths.get("D:/posters");
+            Path outputDir = Paths.get("E:/posters");
             
             // 生成海报
             String posterPath = PosterUtil.createFromLocalImage(imagePath, zhText, enText, outputDir);
-            
-            logger.info("海报已生成: " + posterPath);
+
+            logger.info("海报已生成: {}", posterPath);
         } catch (Exception e) {
-            logger.error("生成海报失败: " + e.getMessage(), e);
+            logger.error("生成海报失败: {}", e.getMessage(), e);
         }
     }
     
@@ -100,10 +100,10 @@ public class PosterGenerator {
             
             // 生成海报
             String posterPath = PosterUtil.create(imageUrl, zhText, enText, bgImagePath, qrcodePath, outputDir);
-            
-            logger.info("自定义海报已生成: " + posterPath);
+
+            logger.info("自定义海报已生成: {}", posterPath);
         } catch (Exception e) {
-            logger.error("生成自定义海报失败: " + e.getMessage(), e);
+            logger.error("生成自定义海报失败: {}", e.getMessage(), e);
         }
     }
 } 
