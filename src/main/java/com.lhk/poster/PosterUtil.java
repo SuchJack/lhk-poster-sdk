@@ -45,7 +45,7 @@ public class PosterUtil {
         graphics2d.setFont(font);
         FontDesignMetrics metrics = FontDesignMetrics.getMetrics(graphics2d.getFont());
 
-        graphics2d.drawString("沉默王二", MARGIN, bgImage.getHeight() - MARGIN - metrics.getHeight() * 2);
+        graphics2d.drawString("SuchJack", MARGIN, bgImage.getHeight() - MARGIN - metrics.getHeight() * 2);
         graphics2d.drawString("一个幽默的程序员", MARGIN, bgImage.getHeight() - MARGIN - metrics.getDescent());
     }
 
@@ -65,7 +65,7 @@ public class PosterUtil {
         }
     }
 
-    public static Graphics2DPoster drawZhString(Graphics2DPoster graphics2dPoster) throws IOException {
+    public static Graphics2DPoster drawZhString(Graphics2DPoster graphics2dPoster) {
         // 获取计算机上允许使用的中文字体
         List<String> fontNames = Arrays
                 .asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
