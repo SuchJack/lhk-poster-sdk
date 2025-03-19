@@ -1,11 +1,15 @@
 package com.lhk.poster;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Graphics2DPoster {
     private Graphics2D graphics2d;
     private int suitableWidth;
@@ -24,5 +28,4 @@ public class Graphics2DPoster {
     public void addCurrentY(int y) {
         setCurrentY(getCurrentY() + y);
     }
-
 }
