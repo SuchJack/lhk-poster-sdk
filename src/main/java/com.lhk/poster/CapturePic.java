@@ -1,26 +1,19 @@
 package com.lhk.poster;
 
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.http.HttpException;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CapturePic {
 
@@ -28,27 +21,6 @@ public class CapturePic {
 
 	// 默认超时设置（毫秒）
 	private static final int DEFAULT_TIMEOUT = 5000;
-
-	/**
-	 * 从 HttpResponse 实例中获取状态码、错误信息、以及响应信息等等.
-	 * 
-	 * @param response
-	 * @return
-	 * @throws IOException
-	 */
-	private static HttpEntity handleResponse(final HttpResponse response) throws IOException {
-		// 状态码
-		final StatusLine statusLine = response.getStatusLine();
-		// 获取响应实体
-		final HttpEntity entity = response.getEntity();
-
-		// 状态码一旦大于 300 表示请求失败
-		if (statusLine.getStatusCode() >= 300) {
-			EntityUtils.consume(entity);
-			throw new HttpResponseException(statusLine.getStatusCode(), statusLine.getReasonPhrase());
-		}
-		return entity;
-	}
 
 	/**
 	 * 将输入流信息读入到临时文件中
@@ -106,35 +78,36 @@ public class CapturePic {
 
 		logger.debug("从URL下载图片: " + picURL);
 
-		// 根据路径发起 HTTP get 请求
-		HttpGet httpget = new HttpGet(picURL);
-		// 使用 addHeader 方法添加请求头部
-		httpget.addHeader("Content-Type", "text/html;charset=UTF-8");
-		httpget.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
-
-		// 配置请求的超时设置
-		RequestConfig requestConfig = RequestConfig.custom()
-				.setConnectionRequestTimeout(timeout)
-				.setConnectTimeout(timeout)
-				.setSocketTimeout(timeout)
-				.build();
-		httpget.setConfig(requestConfig);
-
 		File pic = null;
+		HttpResponse response = null;
 
-		// 使用 HttpClientBuilder 创建 CloseableHttpClient 对象
-		try (CloseableHttpClient httpclient = HttpClientBuilder.create().build();
-			 CloseableHttpResponse response = httpclient.execute(httpget);
-			 InputStream picStream = handleResponse(response).getContent()) {
-
-			pic = createTmpFile(picStream, "pic_", ".jpg", directory);
+		try {
+			// 使用Hutool发送HTTP请求，并设置自动重定向
+			response = HttpRequest.get(picURL)
+					.header("Content-Type", "text/html;charset=UTF-8")
+					.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+					.timeout(timeout)
+					.setFollowRedirects(true)
+					.execute();
+			
+			// 检查响应状态码
+			if (response.getStatus() >= 400) {
+				throw new HttpException("HTTP请求失败，状态码: " + response.getStatus());
+			}
+			
+			// 获取响应输入流并创建临时文件
+			try (InputStream picStream = response.bodyStream()) {
+				pic = createTmpFile(picStream, "pic_", ".jpg", directory);
+			}
 		} catch (Exception e) {
 			logger.error("下载图片失败: " + e.getMessage(), e);
 			e.printStackTrace(); // 添加这行以便在控制台看到完整错误信息
 			throw new RuntimeException("下载图片失败: " + e.getMessage(), e);
 		} finally {
-			// 释放连接
-			httpget.releaseConnection();
+			// 关闭响应
+			if (response != null) {
+				IoUtil.close(response);
+			}
 		}
 
 		if (pic == null || !pic.exists()) {
