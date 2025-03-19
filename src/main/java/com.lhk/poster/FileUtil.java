@@ -12,7 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FileUtil {
-	private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
+
+	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
 	// 默认临时目录，可以通过方法参数覆盖
 //	public static final Path DEFAULT_DIRECTORY = Paths.get(System.getProperty("java.io.tmpdir"));

@@ -23,7 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CapturePic {
-	private static Logger logger = LoggerFactory.getLogger(CapturePic.class);
+
+	private static final Logger logger = LoggerFactory.getLogger(CapturePic.class);
 
 	// 默认超时设置（毫秒）
 	private static final int DEFAULT_TIMEOUT = 5000;

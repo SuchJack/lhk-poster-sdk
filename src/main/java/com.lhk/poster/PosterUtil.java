@@ -16,7 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PosterUtil {
-    private static Logger logger = LoggerFactory.getLogger(PosterUtil.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(PosterUtil.class);
 
     /**
      * 留白

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * 展示如何以编程方式使用海报生成功能
  */
 public class PosterGenerator {
-    private static Logger logger = LoggerFactory.getLogger(PosterGenerator.class);
+    private static final Logger logger = LoggerFactory.getLogger(PosterGenerator.class);
 
     public static void main(String[] args) {
         // 示例1：从网络图片生成海报
